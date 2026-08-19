@@ -23,17 +23,9 @@
 #include "board_pins.h"
 
 
-// The ROM loader jumps straight here; _start runs on the ROM's own stack.
 void _start(void)
 {
-    // Everything the ROM left for us: zero .bss, disarm the watchdogs,
-    // take the CPU from 20 MHz up to 160 MHz.
     board_init();
 
-    // Spin forever, because there is nowhere to return to: the ROM jumped
-    // here rather than calling this as a function, so falling off the end of
-    // _start would run whatever bytes happen to follow it. A program without
-    // an operating system underneath it has to end by never ending.
-    while(1);
-
+    while(1){};
 }
