@@ -135,6 +135,10 @@
 #define UART_STOP_BIT_NUM_S             4        // 1=1, 2=1.5, 3=2 stop bits
 #define UART_RXFIFO_RST                 (1u << 17)
 #define UART_TXFIFO_RST                 (1u << 18)
+// Gates the clock the two FIFOs are built on, and is the one bit in CONF0
+// that powers up set - so a write that means "8N1 and nothing else" has to
+// name it explicitly rather than leave it zero.
+#define UART_MEM_CLK_EN                 (1u << 28)
 #define UART_SCLK_DIV_NUM_S             12       // pre-divider, minus one
 #define UART_SCLK_DIV_NUM_M             0xFFu
 #define UART_SCLK_SEL_S                 20       // 1=80M, 2=RC_FAST, 3=XTAL

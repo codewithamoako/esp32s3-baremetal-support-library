@@ -83,10 +83,12 @@ void uart_init(uint32_t port, uint32_t tx_pin, uint32_t rx_pin, uint32_t baud)
 
     set_baud(port, baud);
 
-    // 8 data bits (3), one stop bit (1), no parity - and nothing else, which
-    // is what a zeroed CONF0 gives us.
+    // 8 data bits (3), one stop bit (1), no parity - and nothing else, bar
+    // MEM_CLK_EN. That one is not ours to clear: it gates the clock the FIFOs
+    // are built on and powers up set, so writing a plainly zeroed CONF0 turns
+    // it off as a side effect of configuring the frame format.
     ESP32S3_REG(reg_of(port, UART_CONF0_OFF)) =
-        (3u << UART_BIT_NUM_S) | (1u << UART_STOP_BIT_NUM_S);
+        UART_MEM_CLK_EN | (3u << UART_BIT_NUM_S) | (1u << UART_STOP_BIT_NUM_S);
 
     // Empty both FIFOs of whatever the ROM or a previous run left behind.
     ESP32S3_REG(reg_of(port, UART_CONF0_OFF)) |= UART_RXFIFO_RST | UART_TXFIFO_RST;
