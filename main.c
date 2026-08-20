@@ -22,10 +22,10 @@
 #include "esp32s3.h"
 #include "board_pins.h"
 
-
 void _start(void)
 {
     board_init();
 
-    while(1){};
+    while(1){
+    };
 }

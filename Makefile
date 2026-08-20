@@ -6,7 +6,7 @@
 #   make size       section sizes
 #   make clean
 #
-# Naming a program from examples/ builds that instead of src/main.c, and
+# Naming a program from examples/ builds that instead of main.c, and
 # works with every target above:
 #
 #   make list                          what is in examples/
@@ -120,13 +120,14 @@ FLASH_SIZE ?= 4MB
 
 # -mlongcalls and -mtext-section-literals are the Xtensa essentials: the first
 # lets calls reach anywhere, the second keeps each function's literal pool next
-# to the code that uses it. -Iinclude is where the esp32s3.h library lives.
+# to the code that uses it. -Iesp32s3/include is where esp32s3.h and the other
+# library headers live.
 CFLAGS := -std=c11 -Os -g -Wall -Wextra \
-          -Iinclude \
+          -Iesp32s3/include \
           -mlongcalls -mtext-section-literals \
           -ffreestanding -ffunction-sections -fdata-sections
 
-# The program to build: src/main.c unless an example from examples/ is named.
+# The program to build: main.c unless an example from examples/ is named.
 #
 # An example can be named either way round - `make i2c_scan` or
 # `make EXAMPLE=i2c_scan`. The bare name is what everyone types first, so it
@@ -138,14 +139,14 @@ EXAMPLES := $(basename $(notdir $(wildcard examples/*.c)))
 EXAMPLE  ?= $(firstword $(filter $(EXAMPLES),$(MAKECMDGOALS)))
 
 ifeq ($(EXAMPLE),)
-  PROGRAM := src/main.c
+  PROGRAM := main.c
   NAME    := main
 else
   PROGRAM := examples/$(EXAMPLE).c
   NAME    := $(EXAMPLE)
 endif
 
-# Every image is named after the source file it was built from, so src/main.c
+# Every image is named after the source file it was built from, so main.c
 # gives build/main.bin and examples/i2c_scan.c gives build/i2c_scan.bin. That
 # is not cosmetic: with one fixed output name, switching from one example to
 # another and back would leave make comparing an old object against a newer
@@ -154,12 +155,12 @@ endif
 ELF := build/$(NAME).elf
 BIN := build/$(NAME).bin
 
-# The support library is everything in board/ - the chip and this particular
-# board, with no program in it. Whichever program gets built links against all
-# of it, and --gc-sections drops the parts that program never calls.
-LDSCRIPT := board/esp32s3.ld
-LIB_SRCS := $(wildcard board/*.c)
-LIB_OBJS := $(patsubst board/%.c,build/%.o,$(LIB_SRCS))
+# The support library is everything in esp32s3/src - the chip and this board,
+# with no program in it. Whichever program gets built links against all of it,
+# and --gc-sections drops the parts that program never calls.
+LDSCRIPT := esp32s3/esp32s3.ld
+LIB_SRCS := $(wildcard esp32s3/src/*.c)
+LIB_OBJS := $(patsubst esp32s3/src/%.c,build/%.o,$(LIB_SRCS))
 PROG_OBJ := build/prog_$(NAME).o
 OBJS     := $(LIB_OBJS) $(PROG_OBJ)
 
@@ -204,7 +205,7 @@ $(ELF): $(OBJS) $(LDSCRIPT)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 	@$(SIZE) $@
 
-build/%.o: board/%.c | build
+build/%.o: esp32s3/src/%.c | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(PROG_OBJ): $(PROGRAM) | build

@@ -1,6 +1,6 @@
 # Examples
 
-One program per peripheral. Each replaces `src/main.c` for the build — just
+One program per peripheral. Each replaces `main.c` for the build — just
 name it:
 
 ```
@@ -14,7 +14,7 @@ form works with every target — `all`, `flash`, `size`, `clean`.
 
 Outputs are named after the program (`build/i2c_scan.bin`), so switching
 between examples never flashes the previous one by mistake. Plain `make` still
-builds `src/main.c` into `build/main.bin`.
+builds `main.c` into `build/main.bin`.
 
 Every example prints to the USB-C console, so `make monitor` shows what it is
 doing. That console is the USB-Serial-JTAG peripheral, which has nothing to do

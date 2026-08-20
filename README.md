@@ -7,9 +7,9 @@ buses — UART, I2C, SPI and PWM — in about 2400 lines of C, comments and all.
 
 It began as a WS2812 blink written against the ESP-IDF and then rebuilt from
 the registers up, which is why there is still an LED driver in here that no
-other part of the library needs. `src/main.c` is a skeleton that boots the
-chip and stops, meant to be built on; the programs that actually do something
-live in `examples/`.
+other part of the library needs. `main.c` is a skeleton that boots the chip
+and stops, meant to be built on; the programs that actually do something live
+in `examples/`.
 
 ```
 make            # build/main.bin
@@ -20,7 +20,7 @@ make i2c_scan flash monitor            # build examples/i2c_scan.c instead
 make list                              # what else is in examples/
 ```
 
-Each image is named after the source it came from: `src/main.c` builds
+Each image is named after the source it came from: `main.c` builds
 `build/main.bin`, `examples/i2c_scan.c` builds `build/i2c_scan.bin`.
 
 ## Getting started
@@ -65,35 +65,47 @@ you run it on a board you care about. If the board does not respond, hold
 
 **Then** run `make list` and flash an example — `gpio_button` needs no wiring
 at all and is the quickest way to confirm the board, the toolchain and the
-flashing all work. After that, write your program in `src/main.c`.
+flashing all work. After that, write your program in `main.c`.
 
 ## What's actually here
 
-Everything that knows about the chip lives in `board/`, so a program stays
-readable as just the program. Write yours in `src/main.c`, include
-`esp32s3.h` (the umbrella) plus whatever peripheral drivers you need on top —
-`led.h` for the onboard RGB LED — and never touch a register directly.
+A clone has four things in it:
+
+```
+Makefile      compile, link, convert to a flash image, flash it
+main.c        your program
+esp32s3/      the support library - the chip and this board
+examples/     one runnable program per peripheral
+```
+
+`examples/` is reference material, not a dependency. Delete the directory and
+`make` still builds `main.c` against the library exactly as before.
+
+Everything that knows about the chip lives in `esp32s3/`, so a program stays
+readable as just the program. Write yours in `main.c`, include `esp32s3.h`
+(the umbrella) plus whatever peripheral drivers you need on top — `led.h` for
+the onboard RGB LED — and never touch a register directly.
 
 | File | Job |
 | --- | --- |
-| `src/main.c` | Your program. A skeleton: boot the chip, then stop |
+| `main.c` | Your program. A skeleton: boot the chip, then stop |
 | `examples/` | One runnable program per peripheral — see its own README |
-| `include/` | The headers: the whole API surface |
-| `board/esp32s3.c` | `board_init()` — zero .bss, disable watchdogs, raise the clock |
-| `board/esp32s3_clock.c` | CPU clock: read it, switch to 160 MHz, ungate peripherals |
-| `board/esp32s3_console.c` | Text over USB-Serial-JTAG |
-| `board/esp32s3_delay.c` | Busy-wait timing |
-| `board/esp32s3_gpio.c` | Digital pins, and the GPIO matrix peripherals reach them through |
-| `board/esp32s3_uart.c` | Hardware serial ports |
-| `board/esp32s3_i2c.c` | I2C master |
-| `board/esp32s3_spi.c` | SPI master on GP-SPI2 |
-| `board/esp32s3_pwm.c` | PWM on the LEDC peripheral |
-| `board/esp32s3_watchdog.c` | Disable the ROM's watchdogs |
-| `board/led.c` | Addressable RGB LED (WS2812) bit-banging driver |
-| `board/esp32s3.ld` | Where the two segments land in SRAM |
+| `esp32s3/include/` | The headers: the whole API surface |
+| `esp32s3/src/esp32s3.c` | `board_init()` — zero .bss, disable watchdogs, raise the clock |
+| `esp32s3/src/esp32s3_clock.c` | CPU clock: read it, switch to 160 MHz, ungate peripherals |
+| `esp32s3/src/esp32s3_console.c` | Text over USB-Serial-JTAG |
+| `esp32s3/src/esp32s3_delay.c` | Busy-wait timing |
+| `esp32s3/src/esp32s3_gpio.c` | Digital pins, and the GPIO matrix peripherals reach them through |
+| `esp32s3/src/esp32s3_uart.c` | Hardware serial ports |
+| `esp32s3/src/esp32s3_i2c.c` | I2C master |
+| `esp32s3/src/esp32s3_spi.c` | SPI master on GP-SPI2 |
+| `esp32s3/src/esp32s3_pwm.c` | PWM on the LEDC peripheral |
+| `esp32s3/src/esp32s3_watchdog.c` | Disable the ROM's watchdogs |
+| `esp32s3/src/led.c` | Addressable RGB LED (WS2812) bit-banging driver |
+| `esp32s3/esp32s3.ld` | Where the two segments land in SRAM |
 | `Makefile` | Compile, link, convert to a flash image, flash it |
 
-`src/main.c` holds only `board_init()` and a halt. A program that does
+`main.c` holds only `board_init()` and a halt. A program that does
 something is still just:
 
 ```c
@@ -117,7 +129,7 @@ Sizes, as `text` in the linked image:
 
 | Program | Size |
 | --- | --- |
-| `src/main.c` — boot and halt | 352 B |
+| `main.c` — boot and halt | 352 B |
 | the blink above | 980 B |
 | `examples/gpio_button.c` | 1.4 KB |
 | a program using all four buses | 5.4 KB |
@@ -265,7 +277,7 @@ v &= ~(0x3u << 10);   ESP32S3_REG(SYSTEM_SYSCLK_CONF_REG) = v;  /* source XTAL  
 Internal SRAM is reachable from two buses at addresses `0x6F0000` apart:
 instructions are fetched through `0x403xxxxx`, data is read and written
 through `0x3FCxxxxx`. Same physical memory — so the two regions in
-`board/esp32s3.ld` must not overlap once that offset is applied.
+`esp32s3/esp32s3.ld` must not overlap once that offset is applied.
 
 | Region | Address | Also known as | Holds |
 | --- | --- | --- | --- |
@@ -332,7 +344,7 @@ This is not the UART. `console_print()` goes out of the USB-C socket to your
 PC; `uart_print()` goes out of a pin to whatever is wired to it. The two have
 nothing to do with each other.
 
-`src/main.c` prints nothing, so a default build is silent by design. The
+`main.c` prints nothing, so a default build is silent by design. The
 examples all print — `make i2c_scan flash monitor` is a quick way to see it
 working:
 
@@ -356,7 +368,7 @@ startup lines never appear, tap **RST** with `make monitor` already running.
 
 Every peripheral takes its settings as arguments to its `*_init()` call —
 pins, baud rate, bus speed, SPI mode, PWM frequency — so there is no
-configuration file and nothing to regenerate. The headers in `include/`
+configuration file and nothing to regenerate. The headers in `esp32s3/include/`
 document the range each one accepts.
 
 The LED driver is the one exception, because it has wire timings that come
@@ -369,4 +381,4 @@ from a datasheet rather than from you:
   presets use 10, which is already bright enough to be unpleasant to look at.
 - **Pin** — the argument to `led_init()`. `PIN_LED` is GPIO21 on this board.
 - **Wire timing** — `LED_T0H_NS` and the four constants beside it at the top
-  of `board/led.c`, in nanoseconds, from the WS2812B datasheet.
+  of `esp32s3/src/led.c`, in nanoseconds, from the WS2812B datasheet.
