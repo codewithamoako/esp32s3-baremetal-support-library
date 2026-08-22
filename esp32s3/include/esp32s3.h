@@ -49,6 +49,7 @@
 #include "esp32s3_spi.h"
 #include "esp32s3_uart.h"
 #include "esp32s3_watchdog.h"
+#include "esp32s3_adc.h"
 
 // Boots the chip: zeroes .bss, disables the watchdogs, and raises the CPU
 // to 160 MHz. Call first in _start(), before anything reads a global.
