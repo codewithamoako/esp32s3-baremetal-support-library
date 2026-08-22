@@ -32,8 +32,8 @@
  * 4095. That is the converter, not the wiring.
  */
 
-#include "esp32s3.h"
-#include "esp32s3_adc.h"
+#include "board.h"
+#include "adc.h"
 #include "board_pins.h"
 
 // Any of GPIO1..GPIO10; the rest of the chip's pins have no ADC1 channel.

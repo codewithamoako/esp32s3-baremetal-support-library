@@ -3,9 +3,9 @@
  */
 
 #include "led.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_delay.h"
-#include "esp32s3_gpio.h"
+#include "clock.h"
+#include "delay.h"
+#include "gpio.h"
 
 // Wire timing, in nanoseconds, from the WS2812B datasheet. Each bit is a high
 // phase followed by a low phase; only the split between them carries data.

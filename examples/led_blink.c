@@ -6,7 +6,7 @@
  * No wiring at all - the RGB LED is already on the board.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 #include "led.h"
 

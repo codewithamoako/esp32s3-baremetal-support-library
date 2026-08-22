@@ -5,8 +5,8 @@
  * files in ESP-IDF. Nothing here includes an ESP-IDF header.
  */
 
-#ifndef ESP32S3_REGS_H
-#define ESP32S3_REGS_H
+#ifndef REGS_H
+#define REGS_H
 
 #include <stdint.h>
 

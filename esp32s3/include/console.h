@@ -10,8 +10,8 @@
  * an unattended board keeps running at full speed.
  */
 
-#ifndef ESP32S3_CONSOLE_H
-#define ESP32S3_CONSOLE_H
+#ifndef CONSOLE_H
+#define CONSOLE_H
 
 #include <stdint.h>
 

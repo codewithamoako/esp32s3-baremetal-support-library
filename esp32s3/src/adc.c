@@ -9,9 +9,9 @@
  * ESP-IDF's sens_reg.h, rtc_io_reg.h and adc_ll.h. No ESP-IDF headers here.
  */
 
-#include "esp32s3_adc.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_regs.h"
+#include "adc.h"
+#include "clock.h"
+#include "regs.h"
 
 // SENS - the SAR ADC controller
 #define SENS_BASE                       0x60008800u

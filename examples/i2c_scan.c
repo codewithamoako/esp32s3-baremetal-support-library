@@ -21,7 +21,7 @@
  * - a device listed as 0xD0/0xD1 is 0x68 to this driver.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 
 #define I2C_PORT    0

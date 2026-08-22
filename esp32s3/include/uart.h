@@ -28,8 +28,8 @@
  * derived from the CPU, so it stays correct across set_cpu_160mhz().
  */
 
-#ifndef ESP32S3_UART_H
-#define ESP32S3_UART_H
+#ifndef UART_H
+#define UART_H
 
 #include <stdint.h>
 

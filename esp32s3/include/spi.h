@@ -33,8 +33,8 @@
  * gets 78125 Hz, the one case where the rate comes out higher than asked.
  */
 
-#ifndef ESP32S3_SPI_H
-#define ESP32S3_SPI_H
+#ifndef SPI_H
+#define SPI_H
 
 #include <stdint.h>
 

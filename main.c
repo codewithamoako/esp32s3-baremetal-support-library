@@ -8,7 +8,7 @@
  * anything that goes wrong next is yours rather than the build's.
  *
  * All the chip plumbing - clock, watchdogs, GPIO, console, timing, and the
- * UART, I2C, SPI and PWM buses - lives in the esp32s3.h support library, so
+ * UART, I2C, SPI and PWM buses - lives in the board.h support library, so
  * nothing about how a register or a pad works shows up here. Add the driver
  * header for whatever you need on top: led.h for the onboard RGB LED, and so
  * on. board_pins.h names the pads the way the silkscreen does.
@@ -19,7 +19,7 @@
  * libc).
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 
 void _start(void)

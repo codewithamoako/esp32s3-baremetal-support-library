@@ -81,7 +81,7 @@ examples/     one runnable program per peripheral
 `make` still builds `main.c` against the library exactly as before.
 
 Everything that knows about the chip lives in `esp32s3/`, so a program stays
-readable as just the program. Write yours in `main.c`, include `esp32s3.h`
+readable as just the program. Write yours in `main.c`, include `board.h`
 (the umbrella) plus whatever peripheral drivers you need on top — `led.h` for
 the onboard RGB LED — and never touch a register directly.
 
@@ -90,25 +90,25 @@ the onboard RGB LED — and never touch a register directly.
 | `main.c` | Your program. A skeleton: boot the chip, then stop |
 | `examples/` | One runnable program per peripheral — see its own README |
 | `esp32s3/include/` | The headers: the whole API surface |
-| `esp32s3/src/esp32s3.c` | `board_init()` — zero .bss, disable watchdogs, raise the clock |
-| `esp32s3/src/esp32s3_clock.c` | CPU clock: read it, switch to 160 MHz, ungate peripherals |
-| `esp32s3/src/esp32s3_console.c` | Text over USB-Serial-JTAG |
-| `esp32s3/src/esp32s3_delay.c` | Busy-wait timing |
-| `esp32s3/src/esp32s3_gpio.c` | Digital pins, and the GPIO matrix peripherals reach them through |
-| `esp32s3/src/esp32s3_uart.c` | Hardware serial ports |
-| `esp32s3/src/esp32s3_i2c.c` | I2C master |
-| `esp32s3/src/esp32s3_spi.c` | SPI master on GP-SPI2 |
-| `esp32s3/src/esp32s3_pwm.c` | PWM on the LEDC peripheral |
-| `esp32s3/src/esp32s3_watchdog.c` | Disable the ROM's watchdogs |
+| `esp32s3/src/board.c` | `board_init()` — zero .bss, disable watchdogs, raise the clock |
+| `esp32s3/src/clock.c` | CPU clock: read it, switch to 160 MHz, ungate peripherals |
+| `esp32s3/src/console.c` | Text over USB-Serial-JTAG |
+| `esp32s3/src/delay.c` | Busy-wait timing |
+| `esp32s3/src/gpio.c` | Digital pins, and the GPIO matrix peripherals reach them through |
+| `esp32s3/src/uart.c` | Hardware serial ports |
+| `esp32s3/src/i2c.c` | I2C master |
+| `esp32s3/src/spi.c` | SPI master on GP-SPI2 |
+| `esp32s3/src/pwm.c` | PWM on the LEDC peripheral |
+| `esp32s3/src/watchdog.c` | Disable the ROM's watchdogs |
 | `esp32s3/src/led.c` | Addressable RGB LED (WS2812) bit-banging driver |
-| `esp32s3/esp32s3.ld` | Where the two segments land in SRAM |
+| `esp32s3/linker.ld` | Where the two segments land in SRAM |
 | `Makefile` | Compile, link, convert to a flash image, flash it |
 
 `main.c` holds only `board_init()` and a halt. A program that does
 something is still just:
 
 ```c
-#include "esp32s3.h"
+#include "board.h"
 #include "led.h"
 
 void _start(void)
@@ -138,7 +138,7 @@ program never calls, so an unused bus costs nothing.
 
 ## The four buses
 
-`esp32s3.h` pulls in UART, I2C, SPI and PWM alongside the GPIO and timing.
+`board.h` pulls in UART, I2C, SPI and PWM alongside the GPIO and timing.
 All four are polled — no interrupt handler, no buffering behind your back, no
 scheduler. A call returns when the hardware has finished.
 
@@ -163,7 +163,7 @@ Almost any pin works for any of them, because none of these peripherals is
 wired to a fixed pad. A peripheral emits a numbered *signal* and a crossbar —
 the GPIO matrix — decides which pad carries it. That is the whole reason the
 init calls take pin numbers. `gpio_route_out()` and `gpio_route_in()` in
-`esp32s3_gpio.h` are the two sides of that crossbar; the bus drivers are their
+`gpio.h` are the two sides of that crossbar; the bus drivers are their
 only expected callers.
 
 `examples/` has a runnable program for each of these, three of which verify
@@ -276,7 +276,7 @@ v &= ~(0x3u << 10);   ESP32S3_REG(SYSTEM_SYSCLK_CONF_REG) = v;  /* source XTAL  
 Internal SRAM is reachable from two buses at addresses `0x6F0000` apart:
 instructions are fetched through `0x403xxxxx`, data is read and written
 through `0x3FCxxxxx`. Same physical memory — so the two regions in
-`esp32s3/esp32s3.ld` must not overlap once that offset is applied.
+`esp32s3/linker.ld` must not overlap once that offset is applied.
 
 | Region | Address | Also known as | Holds |
 | --- | --- | --- | --- |

@@ -2,10 +2,10 @@
  * SPI master on GP-SPI2, CPU-driven through the 64-byte data buffer.
  */
 
-#include "esp32s3_spi.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_gpio.h"
-#include "esp32s3_regs.h"
+#include "spi.h"
+#include "clock.h"
+#include "gpio.h"
+#include "regs.h"
 
 // The controller's own clock, selected in spi_init(). Fixed at 80 MHz off the
 // PLL, which is why the bit rate does not move when the CPU clock does.

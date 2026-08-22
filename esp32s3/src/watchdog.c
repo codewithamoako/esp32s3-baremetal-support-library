@@ -2,8 +2,8 @@
  * Disables the watchdogs the ROM arms before jumping into our image.
  */
 
-#include "esp32s3_watchdog.h"
-#include "esp32s3_regs.h"
+#include "watchdog.h"
+#include "regs.h"
 
 // Each watchdog sits behind a write-protect register: store the magic key to
 // unlock it, write the config, then store anything else to lock it again.

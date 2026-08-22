@@ -6,8 +6,8 @@
  * across a clock switch.
  */
 
-#ifndef ESP32S3_DELAY_H
-#define ESP32S3_DELAY_H
+#ifndef DELAY_H
+#define DELAY_H
 
 #include <stdint.h>
 

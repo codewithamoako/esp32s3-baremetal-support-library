@@ -120,7 +120,7 @@ FLASH_SIZE ?= 4MB
 
 # -mlongcalls and -mtext-section-literals are the Xtensa essentials: the first
 # lets calls reach anywhere, the second keeps each function's literal pool next
-# to the code that uses it. -Iesp32s3/include is where esp32s3.h and the other
+# to the code that uses it. -Iesp32s3/include is where board.h and the other
 # library headers live.
 CFLAGS := -std=c11 -Os -g -Wall -Wextra \
           -Iesp32s3/include \
@@ -158,7 +158,7 @@ BIN := build/$(NAME).bin
 # The support library is everything in esp32s3/src - the chip and this board,
 # with no program in it. Whichever program gets built links against all of it,
 # and --gc-sections drops the parts that program never calls.
-LDSCRIPT := esp32s3/esp32s3.ld
+LDSCRIPT := esp32s3/linker.ld
 LIB_SRCS := $(wildcard esp32s3/src/*.c)
 LIB_OBJS := $(patsubst esp32s3/src/%.c,build/%.o,$(LIB_SRCS))
 PROG_OBJ := build/prog_$(NAME).o

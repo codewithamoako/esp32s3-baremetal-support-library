@@ -6,8 +6,8 @@
  * is invisible to anything measuring a change rather than an absolute level.
  */
 
-#ifndef ESP32S3_ADC_H
-#define ESP32S3_ADC_H
+#ifndef ADC_H
+#define ADC_H
 
 #include <stdint.h>
 

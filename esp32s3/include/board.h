@@ -19,7 +19,7 @@
  *
  * A program looks like this:
  *
- *     #include "esp32s3.h"
+ *     #include "board.h"
  *
  *     void _start(void)
  *     {
@@ -34,22 +34,22 @@
  * inherit the ROM's stack, exactly as ESP-IDF's own bootloader does.
  */
 
-#ifndef ESP32S3_H
-#define ESP32S3_H
+#ifndef BOARD_H
+#define BOARD_H
 
 #include <stdint.h>
 
-#include "esp32s3_clock.h"
-#include "esp32s3_console.h"
-#include "esp32s3_delay.h"
-#include "esp32s3_gpio.h"
-#include "esp32s3_i2c.h"
-#include "esp32s3_pwm.h"
-#include "esp32s3_regs.h"
-#include "esp32s3_spi.h"
-#include "esp32s3_uart.h"
-#include "esp32s3_watchdog.h"
-#include "esp32s3_adc.h"
+#include "clock.h"
+#include "console.h"
+#include "delay.h"
+#include "gpio.h"
+#include "i2c.h"
+#include "pwm.h"
+#include "regs.h"
+#include "spi.h"
+#include "uart.h"
+#include "watchdog.h"
+#include "adc.h"
 
 // Boots the chip: zeroes .bss, disables the watchdogs, and raises the CPU
 // to 160 MHz. Call first in _start(), before anything reads a global.

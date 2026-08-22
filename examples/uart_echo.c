@@ -32,7 +32,7 @@
  * traffic is not interleaved with a banner you have already read.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 
 #define UART_PORT   1

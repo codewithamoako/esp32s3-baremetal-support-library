@@ -3,8 +3,8 @@
  * 160 MHz off the PLL.
  */
 
-#include "esp32s3_clock.h"
-#include "esp32s3_regs.h"
+#include "clock.h"
+#include "regs.h"
 
 static uint32_t cached_cpu_mhz;     // 0 until someone asks
 

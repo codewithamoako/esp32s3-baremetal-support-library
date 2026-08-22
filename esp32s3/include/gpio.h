@@ -17,11 +17,11 @@
  * the peripheral drivers are their only expected callers.
  */
 
-#ifndef ESP32S3_GPIO_H
-#define ESP32S3_GPIO_H
+#ifndef GPIO_H
+#define GPIO_H
 
 #include <stdint.h>
-#include "esp32s3_regs.h"
+#include "regs.h"
 
 // What a pad holds itself at when nothing is driving it.
 typedef enum {

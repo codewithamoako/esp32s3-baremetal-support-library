@@ -26,7 +26,7 @@
  * pulsing correctly if this loop stopped.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 
 #define LED_CHANNEL     0

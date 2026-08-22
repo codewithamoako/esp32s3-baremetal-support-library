@@ -12,8 +12,8 @@
  *     set_cpu_160mhz();
  */
 
-#ifndef ESP32S3_CLOCK_H
-#define ESP32S3_CLOCK_H
+#ifndef CLOCK_H
+#define CLOCK_H
 
 #include <stdint.h>
 

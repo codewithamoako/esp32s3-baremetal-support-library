@@ -20,7 +20,7 @@
  * only accepts a change that is still there a moment later.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "led.h"
 #include "board_pins.h"
 

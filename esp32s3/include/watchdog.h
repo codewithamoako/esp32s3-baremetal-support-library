@@ -10,8 +10,8 @@
  * Call disable_watchdogs() first thing in _start().
  */
 
-#ifndef ESP32S3_WATCHDOG_H
-#define ESP32S3_WATCHDOG_H
+#ifndef WATCHDOG_H
+#define WATCHDOG_H
 
 // Stops the RTC and timer-group 0 watchdogs, and puts the super watchdog
 // into hardware auto-feed. Call first thing in _start().

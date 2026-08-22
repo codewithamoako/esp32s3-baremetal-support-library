@@ -2,8 +2,8 @@
  * Busy-wait timing, counted with the CPU cycle counter.
  */
 
-#include "esp32s3_delay.h"
-#include "esp32s3_clock.h"
+#include "delay.h"
+#include "clock.h"
 
 void delay_cycles(uint32_t cycles)
 {

@@ -2,10 +2,10 @@
  * Hardware UART: 8N1, polled, clocked from the crystal.
  */
 
-#include "esp32s3_uart.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_gpio.h"
-#include "esp32s3_regs.h"
+#include "uart.h"
+#include "clock.h"
+#include "gpio.h"
+#include "regs.h"
 
 #define UART_PORTS  3
 

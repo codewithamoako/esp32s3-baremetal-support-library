@@ -3,10 +3,10 @@
  * outcome out of the interrupt-status register.
  */
 
-#include "esp32s3_i2c.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_gpio.h"
-#include "esp32s3_regs.h"
+#include "i2c.h"
+#include "clock.h"
+#include "gpio.h"
+#include "regs.h"
 
 #define I2C_PORTS   2
 

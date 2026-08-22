@@ -3,7 +3,7 @@
  * through.
  */
 
-#include "esp32s3_gpio.h"
+#include "gpio.h"
 
 // The IO MUX word for one pad: which of the pad's own functions is selected,
 // how hard it drives, and whether the input buffer and pulls are on.

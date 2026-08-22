@@ -26,8 +26,8 @@
  * when the CPU clock does.
  */
 
-#ifndef ESP32S3_PWM_H
-#define ESP32S3_PWM_H
+#ifndef PWM_H
+#define PWM_H
 
 #include <stdint.h>
 

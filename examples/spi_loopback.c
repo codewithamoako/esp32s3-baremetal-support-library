@@ -22,7 +22,7 @@
  * read at the bottom of this file as a starting point.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 #include "board_pins.h"
 
 #define PIN_SCK     PIN_GPIO12

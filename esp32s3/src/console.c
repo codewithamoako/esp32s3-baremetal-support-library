@@ -2,8 +2,8 @@
  * Text output over the chip's built-in USB-Serial-JTAG peripheral.
  */
 
-#include "esp32s3_console.h"
-#include "esp32s3_regs.h"
+#include "console.h"
+#include "regs.h"
 
 // How many polls to spend waiting for FIFO space before giving up. Counted in
 // loop passes, not time, so this costs nothing when a host is connected.

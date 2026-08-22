@@ -28,8 +28,8 @@
  * change. Every call is polled and returns when the transaction is over.
  */
 
-#ifndef ESP32S3_I2C_H
-#define ESP32S3_I2C_H
+#ifndef I2C_H
+#define I2C_H
 
 #include <stdint.h>
 

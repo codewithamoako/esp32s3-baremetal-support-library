@@ -3,10 +3,10 @@
  * duty cycles, and channels that want the same frequency share a timer.
  */
 
-#include "esp32s3_pwm.h"
-#include "esp32s3_clock.h"
-#include "esp32s3_gpio.h"
-#include "esp32s3_regs.h"
+#include "pwm.h"
+#include "clock.h"
+#include "gpio.h"
+#include "regs.h"
 
 // The count LEDC runs on, selected in start_peripheral(). The crystal rather
 // than anything derived from the CPU clock, so a clock switch elsewhere in

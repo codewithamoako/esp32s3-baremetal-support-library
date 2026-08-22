@@ -3,9 +3,9 @@
  * clock. board_init() ties it together in the right order.
  */
 
-#include "esp32s3.h"
+#include "board.h"
 
-// Placed by esp32s3.ld around the .bss section.
+// Placed by linker.ld around the .bss section.
 extern uint32_t __bss_start, __bss_end;
 
 static uint32_t startup_cpu_mhz;
