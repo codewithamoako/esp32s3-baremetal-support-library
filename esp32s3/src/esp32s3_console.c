@@ -58,3 +58,19 @@ void console_print_hex(uint32_t value, uint32_t digits)
         console_print_char((char)(nibble < 10 ? '0' + nibble : 'A' + nibble - 10));
     }
 }
+
+int console_read_byte(void)
+{
+    // The OUT endpoint is the host-to-device direction: whatever was typed
+    // into the terminal on the other end of the USB cable. One flag says
+    // whether the FIFO holds anything, and reading the data register pops a
+    // byte off it. Draining the last byte is also what lets the peripheral
+    // accept the host's next packet, so there is nothing to acknowledge by
+    // hand - keep reading until this returns -1 and the flow control looks
+    // after itself.
+    if (!(ESP32S3_REG(USB_SERIAL_JTAG_EP1_CONF_REG) & USB_SERIAL_JTAG_OUT_EP_DATA_AVAIL)) {
+        return -1;
+    }
+
+    return (int)(ESP32S3_REG(USB_SERIAL_JTAG_EP1_REG) & 0xFFu);
+}
