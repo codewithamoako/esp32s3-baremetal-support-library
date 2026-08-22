@@ -31,8 +31,7 @@ otherwise need the IDF, and nothing here includes one of its headers. On
 Windows, make is not shipped — `winget install ezwinports.make`.
 
 ```
-git clone https://github.com/codewithamoako/esp32s3-baremetal
-cd esp32s3-baremetal
+git clone https://github.com/codewithamoako/esp32s3-baremetal .
 make
 ```
 

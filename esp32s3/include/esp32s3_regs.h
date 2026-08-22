@@ -61,6 +61,7 @@
 #define USB_SERIAL_JTAG_EP1_CONF_REG    (USB_SERIAL_JTAG_BASE + 0x004)
 #define USB_SERIAL_JTAG_WR_DONE         (1u << 0)
 #define USB_SERIAL_JTAG_IN_EP_DATA_FREE (1u << 1)
+#define USB_SERIAL_JTAG_OUT_EP_DATA_AVAIL (1u << 2)
 
 // Peripheral clock gating and reset. Each peripheral below powers up with its
 // clock gated off, so ungating is the first thing every driver does.

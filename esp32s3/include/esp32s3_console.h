@@ -37,4 +37,10 @@ void console_print_u32(uint32_t value);
 // returns: nothing
 void console_print_hex(uint32_t value, uint32_t digits);
 
+// Reads one byte typed by the host on the USB console, if one is waiting.
+// Never blocks: the host-to-device FIFO is polled once and the call returns
+// straight away, so a loop can keep drawing while it waits for input.
+// returns: the byte, 0 to 255, or -1 when nothing has arrived
+int console_read_byte(void);
+
 #endif // ESP32S3_CONSOLE_H
